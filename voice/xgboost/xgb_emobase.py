@@ -46,6 +46,19 @@ def prediction(X_test, clf_object):
 	return y_pred
 
 def cal_accuracy(y_test, y_pred):
+	cm = confusion_matrix(y_test, y_pred)
+
+	# extract true positive (TP), false positive (FP), false negative (FN)
+	TP = cm[1, 1]
+	FP = cm[0, 1]
+	FN = cm[1, 0]
+
+	# calculate FMR and FNMR
+	FMR = FP / (FP + (cm[0, 0]))
+	FNMR = FN / (FN + TP)
+
+	print("False Match Rate (FMR):", FMR)
+	print("False Non-Match Rate (FNMR):", FNMR)
 	
 	print("Confusion Matrix: ",
 		confusion_matrix(y_test, y_pred))
