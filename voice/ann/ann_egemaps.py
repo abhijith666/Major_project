@@ -8,6 +8,7 @@ from sklearn import metrics
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
 from datetime import datetime 
 from sklearn.metrics import accuracy_score
+from sklearn.metrics import confusion_matrix
 
 data  = pd.read_csv('../eGeMAPSv02_adcn.csv',sep= ',', header = None)
 X = data.values[:, 0:87]
@@ -49,7 +50,7 @@ es = EarlyStopping(monitor='val_loss', mode='min', verbose=1,patience=15)
 
 num_epochs = 90
 num_batch_size = 32
-checkpointer = ModelCheckpoint(filepath='./audio_classification_egemapsv02.hdf5', monitor='val_accuracy', mode='max', verbose=1, save_best_only=True)
+checkpointer = ModelCheckpoint(filepath='./audio_classification_egemapsv021.hdf5', monitor='val_accuracy', mode='max', verbose=1, save_best_only=True)
 start = datetime.now()
 model.fit(X_train, y_train, batch_size=num_batch_size, epochs=num_epochs, validation_data=(X_test, y_test), callbacks=[es,checkpointer], verbose=1)
 duration = datetime.now() - start
@@ -61,3 +62,6 @@ print(test_accuracy[1])
 predict_x=model.predict(X_test) 
 classes_x=np.argmax(predict_x,axis=1)
 print(classes_x)
+print(y_test)
+
+
